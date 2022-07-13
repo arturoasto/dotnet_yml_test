@@ -1,0 +1,30 @@
+name: Test deploy per environment
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        required: true
+      environment:
+        type: environment
+        description: Select the environment
+        required: true
+      choice:
+        type: choice
+        description: Choose element to deploy
+        required: true
+        options:
+        - Functions
+        - Web Client
+        - Web API
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: greet
+        run: | 
+          echo "environment is ${{ github.event.inputs.environment }} / ${{ inputs.environment }}"
+          echo "boolean is ${{ github.event.inputs.boolean }}" / ${{ inputs.boolean }} 
+          echo "choice is ${{ github.event.inputs.choice }}" / ${{ inputs.choice }}
