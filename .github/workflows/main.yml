@@ -2,8 +2,6 @@ name: Test deploy per environment
 on:
   workflow_dispatch:
     inputs:
-      tag:
-        required: true
       environment:
         type: environment
         description: Select the environment
@@ -26,5 +24,4 @@ jobs:
       - name: greet
         run: | 
           echo "environment is ${{ github.event.inputs.environment }} / ${{ inputs.environment }}"
-          echo "boolean is ${{ github.event.inputs.boolean }}" / ${{ inputs.boolean }} 
           echo "choice is ${{ github.event.inputs.choice }}" / ${{ inputs.choice }}
