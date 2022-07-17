@@ -9,6 +9,7 @@ on:
 env:
   RELEASE_NAME: App-Release
   CONFIGURATION: Release
+  WORKING_DIRECTORY: directory_build
 
 jobs:
   deploy:
@@ -34,7 +35,7 @@ jobs:
           
           release_name="coding-v1"
           # Build everything
-          dotnet publish /*.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name"
+          dotnet publish ${{env.WORKING_DIRECTORY}}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name"
           # Pack files
           if [ "${{ matrix.target }}" == "win-x64" ]; then
             # Pack to zip for Windows
