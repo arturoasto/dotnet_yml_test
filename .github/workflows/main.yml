@@ -1,24 +1,45 @@
 name: Test deploy per environment
-
-parameters:
-  - name: projectNames
-    type: string
-    default: coding
-    values: 
-      - coding
-      - codingv2
-      - codingv3
-
-trigger: none
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+        description: Select the environment
+        required: true
 
 jobs:
-    testDeploy: 
-    steps:      
-      - ${{ each parameter in parameters }}:
-      - script: echo ${{ parameter.Key }} 
-      - script: echo ${{ parameter.Value }}
+  deploy:
+    name: deploy
+    strategy:
+      matrix:
+        projectName: [coding, codingv2, codingv3]
+        kind: ['windows']
+        include:
+          - kind: windows
+            os: windows-latest
+            target: win-x64       
+    runs-on: ${{ matrix.os }}
+    if: ${{ inputs.environment == 'Dev'}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: start deploying
+        run: | 
+          echo "environment is ${{ inputs.environment }}"
+          echo "${{ projectName }} building"
 
-# steps: 
-# - ${{ each parameter in parameters }}:
-#   - script: echo ${{ parameter.Key }} 
-#   - script: echo ${{ parameter.Value }}
+      - name: build
+        shell: bash
+        run: |
+          
+          release_name= "${{ projectName }}"
+          # Build everything
+          dotnet publish ${{ release_name }}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name"
+          # Pack files
+          if [ "${{ matrix.target }}" == "win-x64" ]; then
+            # Pack to zip for Windows
+            7z a -tzip "${release_name}.zip" "./${release_name}/*"
+          else
+          tar czvf "${release_name}.tar.gz" "$release_name"
+          fi
+          # Delete output directory
+          rm -r "$release_name"
