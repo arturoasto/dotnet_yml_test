@@ -14,8 +14,9 @@ trigger: none
 jobs:
   - job: deploy   
     steps:      
-      - ${{ each projectName in parameters.projectNames }}:
-        -script : echo ${{ projectName.Key }} ${{projectName.Value }}
+      - ${{ each parameter in parameters }}:
+      - script: echo ${{ parameter.Key }} 
+      - script: echo ${{ parameter.Value }}
 
 # steps: 
 # - ${{ each parameter in parameters }}:
