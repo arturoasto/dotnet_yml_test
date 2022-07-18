@@ -30,7 +30,7 @@ jobs:
     steps:      
       - uses: actions/checkout@v2          
       - name: start deploying
-      - ${{ each projectName in parameters.projectNames }}:
+      - ${{ each projectName in parameters }}:
         run: | 
           echo "environment is ${{ inputs.environment }}"
           echo "${{ projectName }} building"
