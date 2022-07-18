@@ -11,7 +11,6 @@ parameters:
   projectNames: [coding, codingv2, codingv3]
 
 jobs:
-  -${{ each projectName in parameters.projectNames}}:
   deploy:
     name: deploy
     strategy:
@@ -23,6 +22,12 @@ jobs:
             target: win-x64       
     runs-on: ${{ matrix.os }}
     if: ${{ inputs.environment == 'Dev'}}
+
+  -${{ each projectName in parameters.projectNames }}:
+    -${{ each pair in job }}:
+      ${{ if ne(pair.key, 'dependsOn') }}:
+        ${{ pair.key }}: ${{ pair.value }}
+  
     steps:
       - uses: actions/checkout@v2
       - name: start deploying
