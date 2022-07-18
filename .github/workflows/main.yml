@@ -8,11 +8,16 @@ on:
         required: true
 
 parameters:
-  projectNames: [coding, codingv2, codingv3]
+  - name: projectNames
+    type: string
+    default: coding
+    values: 
+      - coding
+      - codingv2
+      - codingv3
 
 jobs:
-  deploy:
-    name: deploy
+  - job: Deploy
     strategy:
       matrix:
         kind: ['windows']
@@ -23,6 +28,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: ${{ inputs.environment == 'Dev'}}  
     steps:
+      - ${{ each projectName in parameters.projectNames }}:
       - uses: actions/checkout@v2          
       - name: start deploying
         run: | 
@@ -31,8 +37,7 @@ jobs:
 
       - name: build
         shell: bash
-        run: |
-          ${{ each projectName in parameters.projectNames }}:  
+        run:          
           release_name= "${{ projectName }}"
           # Build everything
           dotnet publish ${{ release_name }}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name"
