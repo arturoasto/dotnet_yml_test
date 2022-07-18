@@ -23,8 +23,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: ${{ inputs.environment == 'Dev'}}  
     steps:
-      - ${{ each projectName in parameters.projectNames }}:
       - uses: actions/checkout@v2
+      - ${{ each projectName in parameters.projectNames }}:      
       - name: start deploying
         run: | 
           echo "environment is ${{ inputs.environment }}"
