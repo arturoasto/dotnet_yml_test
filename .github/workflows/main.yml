@@ -17,7 +17,7 @@ parameters:
       - codingv3
 
 jobs:
-  - job: Deploy   
+  - job: deploy   
     if: ${{ inputs.environment == 'Dev'}}  
     steps:      
       - uses: actions/checkout@v2          
