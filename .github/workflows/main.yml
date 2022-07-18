@@ -23,8 +23,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: ${{ inputs.environment == 'Dev'}}  
     steps:
-      - uses: actions/checkout@v2
-      - ${{ each projectName in parameters.projectNames }}:      
+      - uses: actions/checkout@v2          
       - name: start deploying
         run: | 
           echo "environment is ${{ inputs.environment }}"
@@ -33,7 +32,7 @@ jobs:
       - name: build
         shell: bash
         run: |
-          
+          ${{ each projectName in parameters.projectNames }}:  
           release_name= "${{ projectName }}"
           # Build everything
           dotnet publish ${{ release_name }}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name"
