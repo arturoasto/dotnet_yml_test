@@ -29,9 +29,8 @@ jobs:
 
       - name: build
         shell: bash
-        run: |
-          
-          release_name= "${{ matrix.projectName }}"
+        run: |          
+          release_name= ${{ matrix.projectName }}
           # Build everything
           dotnet publish ${{ release_name }}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name"
           # Pack files
