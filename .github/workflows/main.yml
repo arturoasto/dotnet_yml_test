@@ -6,12 +6,12 @@ on:
         type: environment
         description: Select the environment
         required: true
-env:
-  RELEASE_NAME: App-Release
-  CONFIGURATION: Release
-  WORKING_DIRECTORY: coding
+
+parameters:
+  projectNames: [coding, codingv2, codingv3]
 
 jobs:
+  -${{ each projectName in parameters.projectNames}}
   deploy:
     name: deploy
     strategy:
@@ -28,14 +28,15 @@ jobs:
       - name: start deploying
         run: | 
           echo "environment is ${{ inputs.environment }}"
+          echo "${{ projectName }} building"
 
       - name: build
         shell: bash
         run: |
           
-          release_name="coding-v1"
+          release_name= "${{ projectName }}"
           # Build everything
-          dotnet publish ${{env.WORKING_DIRECTORY}}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name"
+          dotnet publish ${{ release_name }}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name"
           # Pack files
           if [ "${{ matrix.target }}" == "win-x64" ]; then
             # Pack to zip for Windows
