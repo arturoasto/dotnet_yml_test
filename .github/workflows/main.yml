@@ -1,11 +1,4 @@
 name: Test deploy per environment
-on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        type: environment
-        description: Select the environment
-        required: true
 
 parameters:
   - name: projectNames
@@ -18,9 +11,6 @@ parameters:
 
 jobs:
   - job: deploy   
-    if: ${{ inputs.environment == 'Dev'}}  
     steps:      
-      - uses: actions/checkout@v2          
-      - name: start deploying
       - ${{ each projectName in parameters.projectNames }}:
         -script : echo ${{ projectName.Key }} ${{projectName.Value }}
