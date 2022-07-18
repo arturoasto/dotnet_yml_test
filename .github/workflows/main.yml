@@ -12,7 +12,7 @@ parameters:
 trigger: none
 
 jobs:
-  - job: deploy
+  - job: testDeploy
     displayName: testing deploy   
     steps:      
       - ${{ each parameter in parameters }}:
