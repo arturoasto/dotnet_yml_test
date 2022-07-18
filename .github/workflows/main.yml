@@ -11,7 +11,7 @@ parameters:
   projectNames: [coding, codingv2, codingv3]
 
 jobs:
-  -${{ each projectName in parameters.projectNames}}
+  -${{ each projectName in parameters.projectNames}}:
   deploy:
     name: deploy
     strategy:
