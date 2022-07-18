@@ -25,13 +25,13 @@ jobs:
       - name: start deploying
         run: | 
           echo "environment is ${{ inputs.environment }}"
-          echo "${{ projectName }} building"
+          echo "${{ matrix.projectName }} building"
 
       - name: build
         shell: bash
         run: |
           
-          release_name= "${{ projectName }}"
+          release_name= "${{ matrix.projectName }}"
           # Build everything
           dotnet publish ${{ release_name }}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name"
           # Pack files
