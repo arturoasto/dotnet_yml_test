@@ -9,8 +9,15 @@ parameters:
       - codingv2
       - codingv3
 
+trigger: none
+
 jobs:
   - job: deploy   
     steps:      
       - ${{ each projectName in parameters.projectNames }}:
         -script : echo ${{ projectName.Key }} ${{projectName.Value }}
+
+# steps: 
+# - ${{ each parameter in parameters }}:
+#   - script: echo ${{ parameter.Key }} 
+#   - script: echo ${{ parameter.Value }}
