@@ -19,7 +19,6 @@ jobs:
             os: windows-latest
             target: win-x64       
     runs-on: ${{ matrix.os }}
-    if: ${{ inputs.environment == 'Dev'}}
     steps:
       - uses: actions/checkout@v2
       - name: start deploying
