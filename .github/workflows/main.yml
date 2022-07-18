@@ -21,14 +21,9 @@ jobs:
             os: windows-latest
             target: win-x64       
     runs-on: ${{ matrix.os }}
-    if: ${{ inputs.environment == 'Dev'}}
-
-  -${{ each projectName in parameters.projectNames }}:
-    -${{ each pair in job }}:
-      ${{ if ne(pair.key, 'dependsOn') }}:
-        ${{ pair.key }}: ${{ pair.value }}
-  
+    if: ${{ inputs.environment == 'Dev'}}  
     steps:
+      - ${{ each projectName in parameters.projectNames }}:
       - uses: actions/checkout@v2
       - name: start deploying
         run: | 
