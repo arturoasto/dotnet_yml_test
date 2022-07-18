@@ -17,18 +17,10 @@ parameters:
       - codingv3
 
 jobs:
-  - job: Deploy
-    strategy:
-      matrix:
-        kind: ['windows']
-        include:
-          - kind: windows
-            os: windows-latest
-            target: win-x64       
-    runs-on: ${{ matrix.os }}
+  - job: Deploy   
     if: ${{ inputs.environment == 'Dev'}}  
     steps:      
       - uses: actions/checkout@v2          
       - name: start deploying
       - ${{ each projectName in parameters.projectNames }}:
-        -script : echo ${{ projectName }}
+        -script : echo ${{ projectName.Key }} ${{projectName.Value }}
