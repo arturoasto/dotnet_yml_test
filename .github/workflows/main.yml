@@ -32,18 +32,18 @@ jobs:
       - name: build
         shell: bash
         run: | 
-          release_name=${{ matrix.projectName }}
+          echo "${{ matrix.projectName }}""
           # Build everything
-          dotnet publish ${{ release_name }}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name"
+          dotnet publish ${{ matrix.projectName }}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "$matrix.projectName"
           # Pack files
           if [ "${{ matrix.target }}" == "win-x64" ]; then
             # Pack to zip for Windows
-            7z a -tzip "${release_name}.zip" "./${release_name}/*"
+            7z a -tzip "${matrix.projectName}.zip" "./${matrix.projectName}/*"
           else
-          tar czvf "${release_name}.tar.gz" "$release_name"
+          tar czvf "${matrix.projectName}.tar.gz" "$matrix.projectName"
           fi
           # Delete output directory
-          rm -r "$release_name"
+          rm -r "$matrix.projectName"
 
       - name: post-build
         run: echo "post build"
