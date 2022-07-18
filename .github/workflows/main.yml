@@ -12,8 +12,7 @@ parameters:
 trigger: none
 
 jobs:
-  - job: testDeploy
-    displayName: testing deploy   
+    testDeploy: 
     steps:      
       - ${{ each parameter in parameters }}:
       - script: echo ${{ parameter.Key }} 
