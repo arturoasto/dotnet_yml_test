@@ -44,3 +44,6 @@ jobs:
           fi
           # Delete output directory
           rm -r "$release_name"
+
+      -name: post-build
+        run: echo "post build"
