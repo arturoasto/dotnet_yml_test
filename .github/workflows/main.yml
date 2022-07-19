@@ -15,7 +15,7 @@ jobs:
     name: deploy
     strategy:
       matrix:
-        projectName: [coding, codingv2]
+        projectName: [coding]
         kind: ['windows']
         include:
           - kind: windows
@@ -34,14 +34,14 @@ jobs:
         run: | 
           # Build everything
           dotnet publish ${{ matrix.projectName }}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "output_folder/${{ matrix.projectName }}"
-          7z a -tzip "/upload/${{ matrix.projectName }}.zip" ./output_folder/${{ matrix.projectName }}
+          7z a -tzip "upload/${{ matrix.projectName }}.zip" ./output_folder/${{ matrix.projectName }}
           rm -r "output_folder"
 
       - uses: actions/upload-artifact@v3
         name: upload artifact for each project
         with: 
           name: ${{ matrix.projectName }}
-          path: C:/Program Files/Git/upload/${{ matrix.projectName }}.zip"
+          path: upload/${{ matrix.projectName }}.zip
 
   zipFiles:
     name: zipFiles
