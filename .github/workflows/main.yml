@@ -41,7 +41,7 @@ jobs:
         name: upload artifact for each project
         with: 
           name: ${{ matrix.projectName }}
-          path: upload/${{ matrix.projectName }}/*.zip"
+          path: upload/${{ matrix.projectName }}.zip"
 
   zipFiles:
     name: zipFiles
