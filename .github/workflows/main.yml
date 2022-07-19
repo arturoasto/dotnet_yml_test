@@ -61,7 +61,7 @@ jobs:
 
       - name: unzip artifacts
         shell: bash
-        run: 7z x upload/*.zip -o./binaries
+        run: 7z x upload/*/*.zip -o./binaries
 
       - name: zip all together
         shell: bash
