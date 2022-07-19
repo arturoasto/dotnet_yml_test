@@ -37,7 +37,7 @@ jobs:
           7z a -tzip "/upload/${{ matrix.projectName }}.zip" ./output_folder/${{ matrix.projectName }}"
           rm -r "output_folder"
 
-      - users: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v3
       - name: upload artifact for each project
         with: 
           name: ${{ matrix.projectName }}"
