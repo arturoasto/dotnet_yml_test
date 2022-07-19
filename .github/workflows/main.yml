@@ -24,19 +24,24 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-      - name: start deploying
+      - name: start publishing
         run: | 
           echo "environment is ${{ inputs.environment }}"
-          echo "${{ matrix.projectName }} building"
+          echo "${{ matrix.projectName }} publishing"
 
       - name: build
         shell: bash
         run: | 
           # Build everything
-          dotnet publish ${{ matrix.projectName }}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "OUTPUT_FOLDER/${{ matrix.projectName }}"
+          dotnet publish ${{ matrix.projectName }}/*.csproj --runtime "${{ matrix.target }}" -c Release -o "output_folder/${{ matrix.projectName }}"
+          7z a -tzip "/upload/${{ matrix.projectName }}.zip" ./output_folder/${{ matrix.projectName }}"
+          rm -r "output_folder"
 
-      - name: post-build
-        run: echo "post build"
+      - users: actions/upload-artifact@v3
+      - name: upload artifact for each project
+        with: 
+          name: ${{ matrix.projectName }}"
+          path: upload/${{ matrix.projectName }}/*.zip"
 
   zipFiles:
     name: zipFiles
@@ -44,10 +49,24 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v2
-      - name: pack files
-        shell: bash
-        run: 7z a -tzip "output-binaries.zip" ./OUTPUT_FOLDER
 
-      - name: delete directory
+      - uses: actions/download-artifact@v3
+      - name: get artifacts
+        with:
+          path: upload
+
+      - name: show artifacts
+        run: ls -R
+        working-directory: upload
+
+      - name: unzip artifacts
         shell: bash
-        run: rm -r "OUTPUT_FOLDER"
+        run: 7z x upload/*.zip -o./binaries
+
+      - name: zip all together
+        shell: bash
+        run: 7z a -tzip release/final.zip ./binaries
+
+      - name: show zip containing all binaries
+        run: ls -R
+        working-directory: release
