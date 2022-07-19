@@ -24,7 +24,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-      - name: start publishing
+        name: start publishing
         run: | 
           echo "environment is ${{ inputs.environment }}"
           echo "${{ matrix.projectName }} publishing"
@@ -38,7 +38,7 @@ jobs:
           rm -r "output_folder"
 
       - uses: actions/upload-artifact@v3
-      - name: upload artifact for each project
+        name: upload artifact for each project
         with: 
           name: ${{ matrix.projectName }}"
           path: upload/${{ matrix.projectName }}/*.zip"
@@ -51,7 +51,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: actions/download-artifact@v3
-      - name: get artifacts
+        name: get artifacts
         with:
           path: upload
 
