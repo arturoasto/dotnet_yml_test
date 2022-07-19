@@ -15,7 +15,7 @@ jobs:
     name: deploy
     strategy:
       matrix:
-        projectName: [coding, codingv2, codingv3]
+        projectName: [coding, codingv2]
         kind: ['windows']
         include:
           - kind: windows
@@ -41,7 +41,7 @@ jobs:
         name: upload artifact for each project
         with: 
           name: ${{ matrix.projectName }}
-          path: upload/${{ matrix.projectName }}.zip"
+          path: C:/Program Files/Git/upload/${{ matrix.projectName }}.zip"
 
   zipFiles:
     name: zipFiles
