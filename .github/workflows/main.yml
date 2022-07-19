@@ -40,6 +40,7 @@ jobs:
 
   zipFiles:
     name: zipFiles
+    runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v2
       - name: pack files
