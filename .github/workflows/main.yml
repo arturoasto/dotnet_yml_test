@@ -24,7 +24,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-        name: start publishing
+      - name: start publishing
         run: | 
           echo "environment is ${{ inputs.environment }}"
           echo "${{ matrix.projectName }} publishing"
