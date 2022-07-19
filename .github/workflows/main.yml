@@ -46,7 +46,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: pack files
         shell: bash
-        run: 7z a -tzip "${{ matrix.projectName }}.zip" "OUTPUT_FOLDER/*"
+        run: 7z a -tzip "output-binaries.zip" ./OUTPUT_FOLDER
 
       - name: delete directory
         shell: bash
