@@ -41,8 +41,11 @@ jobs:
   zipFiles:
     name: zipFiles
     steps: 
-      -name: pack files
-      -run: 7z a -tzip "${{ matrix.projectName }}.zip" "OUTPUT_FOLDER/*"
+      - uses: actions/checkout@v2
+      - name: pack files
+        shell: bash
+        run: 7z a -tzip "${{ matrix.projectName }}.zip" "OUTPUT_FOLDER/*"
 
-      -name: delete directory
-      -run: rm -r "OUTPUT_FOLDER"
+      - name: delete directory
+        shell: bash
+        run: rm -r "OUTPUT_FOLDER"
